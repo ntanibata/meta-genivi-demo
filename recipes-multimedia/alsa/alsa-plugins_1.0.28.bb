@@ -6,8 +6,10 @@ DEPENDS = "alsa-lib pulseaudio"
 PR = "r1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-${PV}.tar.bz2 \
+SRC_URI = "http://www.tux.org/pub/sites/ftp.alsa-project.org/plugins/alsa-plugins-${PV}.tar.bz2 \
 "
+#SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-${PV}.tar.bz2 \
+#"
 
 SRC_URI[md5sum] = "6fcbbb31e96f8ebc5fb926184a717aa4"
 SRC_URI[sha256sum] = "426f8af1a07ee9d8c06449524d1f0bd59a06e0331a51aa3d59d343a7c6d03120"
