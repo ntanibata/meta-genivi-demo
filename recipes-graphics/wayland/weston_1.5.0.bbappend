@@ -28,10 +28,10 @@ do_install_append() {
     cp ${WORKDIR}/weston.service ${D}${systemd_unitdir}/system/
     mkdir -p ${D}${systemd_unitdir}/system/multi-user.target.wants/
     ln -sf /lib/systemd/system/weston.service ${D}/${systemd_unitdir}/system/multi-user.target.wants/weston.service
-
-    WESTON_INI_CONFIG=${sysconfdir}/xdg/weston
-    install -d ${D}${WESTON_INI_CONFIG}
-    install -m 0644 ${WORKDIR}/weston.ini ${D}${WESTON_INI_CONFIG}/weston.ini
+#
+#    WESTON_INI_CONFIG=${sysconfdir}/xdg/weston
+#    install -d ${D}${WESTON_INI_CONFIG}
+#    install -m 0644 ${WORKDIR}/weston.ini ${D}${WESTON_INI_CONFIG}/weston.ini
 }
 
 FILES_${PN} += " \
