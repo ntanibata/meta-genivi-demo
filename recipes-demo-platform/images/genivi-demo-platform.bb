@@ -22,8 +22,6 @@ IMAGE_INSTALL_append = " \
     packagegroup-specific-component-p1 \
     packagegroup-gdp-am-demo \
     packagegroup-gdp-browser \
-    packagegroup-gdp-fsa \
-    packagegroup-gdp-gps \
     packagegroup-gdp-hmi \
     packagegroup-gdp-qt5 \
     boost \
