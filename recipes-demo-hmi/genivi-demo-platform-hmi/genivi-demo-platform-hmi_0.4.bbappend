@@ -4,4 +4,5 @@ SRC_URI_append = "\
     file://0004-controller-provisional-fix-to-ilm-input-method.patch \
     file://0005-gdp-hmi-background-supports-dual-display.patch \
     file://0006-gdp-hmi-controller-support-multi-screen.patch \
+    file://0007-gdp-hmi-controller-add-transition.patch \
 "
