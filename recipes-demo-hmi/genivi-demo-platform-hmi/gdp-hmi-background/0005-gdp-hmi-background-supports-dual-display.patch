@@ -1,0 +1,29 @@
+From 2a20c4ef0be98c5292eccb5fd2f32cbace0ae793 Mon Sep 17 00:00:00 2001
+From: Nobuhiko Tanibata <ntanibata@jp.adit-jv.com>
+Date: Sat, 10 Oct 2015 11:01:24 +0900
+Subject: [PATCH 5/7] gdp-hmi-background: supports dual display
+
+---
+ app/gdp-hmi-background/main.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/app/gdp-hmi-background/main.cpp b/app/gdp-hmi-background/main.cpp
+index 42b433c..fab8584 100644
+--- a/app/gdp-hmi-background/main.cpp
++++ b/app/gdp-hmi-background/main.cpp
+@@ -31,9 +31,12 @@ int main(int argc, char *argv[])
+ 
+     QGuiApplication app(argc, argv);
+     QQuickView view(QUrl(QStringLiteral("qrc:/main.qml")));
++    QQuickView view2(QUrl(QStringLiteral("qrc:/main.qml")));
+ 
+     view.setProperty("IVI-Surface-ID", GDP_BACKGROUND_SURFACE_ID);
++    view2.setProperty("IVI-Surface-ID", GDP_BACKGROUND_SURFACE_ID + 1000);
+     view.show();
++    view2.show();
+ 
+     return app.exec();
+ }
+-- 
+1.8.3.1
+
