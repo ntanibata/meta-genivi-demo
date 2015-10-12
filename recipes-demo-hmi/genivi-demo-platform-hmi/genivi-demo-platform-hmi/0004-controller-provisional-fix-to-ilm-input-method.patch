@@ -1,0 +1,76 @@
+From bb16bc441f672978536cfc89c9ba59288f41b691 Mon Sep 17 00:00:00 2001
+From: Nobuhiko Tanibata <ntanibata@jp.adit-jv.com>
+Date: Sat, 10 Oct 2015 10:59:18 +0900
+Subject: [PATCH 4/7] controller: provisional fix to ilm input method
+
+---
+ src/gdp-hmi-controller.cpp | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/src/gdp-hmi-controller.cpp b/src/gdp-hmi-controller.cpp
+index 63afa7d..bf1e8f3 100644
+--- a/src/gdp-hmi-controller.cpp
++++ b/src/gdp-hmi-controller.cpp
+@@ -62,7 +62,7 @@
+ static int verbose                 = 0;
+ static int gRunLoop                = 0;
+ static GMainLoop* gMainLoop        = NULL;
+-static t_ilm_uint screenID         = 0;
++static t_ilm_uint screenID         = 1;
+ static t_ilm_uint screenWidth      = DEFAULT_SCREEN_WIDTH;
+ static t_ilm_uint screenHeight     = DEFAULT_SCREEN_HEIGHT;
+ static t_ilm_uint panelHeight      = DEFAULT_PANEL_HEIGHT_LR;
+@@ -346,13 +346,15 @@ static void launcher_show(const struct gdp_surface_context gdp_surface)
+         gdp_surface.id_surface, 1.0f);
+     callResult = ilm_commitChanges();
+     sd_journal_print(LOG_DEBUG, "launcher_show - input focus on\n");
++    /*
+     callResult = ilm_UpdateInputEventAcceptanceOn(
+         gdp_surface.id_surface,
+         ILM_INPUT_DEVICE_POINTER |
+         ILM_INPUT_DEVICE_TOUCH   |
+         ILM_INPUT_DEVICE_KEYBOARD,
+         ILM_TRUE);
+-    callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
++    */
++    //callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
+     callResult = ilm_commitChanges();
+ 
+     sd_journal_print(LOG_DEBUG, "launcher_show - render order - layer\n");
+@@ -418,13 +420,15 @@ void surface_control(const int index)
+                 gdp_surface.id_surface, 1.0f);
+             callResult = ilm_commitChanges();
+             sd_journal_print(LOG_DEBUG, "surface_control (0) - input focus on\n");
++            /*
+             callResult = ilm_UpdateInputEventAcceptanceOn(
+                 gdp_surface.id_surface,
+                 ILM_INPUT_DEVICE_POINTER |
+                 ILM_INPUT_DEVICE_TOUCH   |
+                 ILM_INPUT_DEVICE_KEYBOARD,
+                 ILM_TRUE);
+-            callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
++            */
++            //callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
+             callResult = ilm_commitChanges();
+             sd_journal_print(LOG_DEBUG, "surface_control - render order - layer\n");
+             callResult = ilm_layerSetDestinationRectangle(gdp_surface.id_layer,
+@@ -460,13 +464,15 @@ void surface_control(const int index)
+                 gdp_surface.id_surface, 1.0f);
+             callResult = ilm_commitChanges();
+             sd_journal_print(LOG_DEBUG, "surface_control - input focus on\n");
++            /*
+             callResult = ilm_UpdateInputEventAcceptanceOn(
+                 gdp_surface.id_surface,
+                 ILM_INPUT_DEVICE_POINTER |
+                 ILM_INPUT_DEVICE_TOUCH   |
+                 ILM_INPUT_DEVICE_KEYBOARD,
+                 ILM_TRUE);
+-            callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
++            */
++            //callResult = ilm_SetKeyboardFocusOn(gdp_surface.id_surface);
+             callResult = ilm_commitChanges();
+ 
+             sd_journal_print(LOG_DEBUG, "surface_control - render order - layer\n");
+-- 
+1.8.3.1
+
