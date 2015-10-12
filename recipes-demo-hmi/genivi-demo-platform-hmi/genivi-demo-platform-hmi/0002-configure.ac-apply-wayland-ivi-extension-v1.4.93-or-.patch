@@ -1,0 +1,42 @@
+From 4aa1a33cddbd2e0870cdefa4ce142f82f9fc930c Mon Sep 17 00:00:00 2001
+From: Nobuhiko Tanibata <ntanibata@jp.adit-jv.com>
+Date: Sat, 10 Oct 2015 10:54:48 +0900
+Subject: [PATCH 2/7] configure.ac: apply wayland-ivi-extension v1.4.93 or
+ above
+
+---
+ configure.ac | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index f0c7ba2..7e5a4b2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -59,12 +59,18 @@ PKG_CHECK_MODULES([CLIENT], [
+ 
+ # Check for wayland-ivi-extension
+ AC_CHECK_HEADERS([ilm/ilm_types.h])
+-AC_CHECK_LIB(ilmClient, ilm_UpdateInputEventAcceptanceOn,
+-	[ILM_LIBS="-lilmCommon -lilmClient"],
+-	[AC_MSG_ERROR([Can't find correct ilmClient library.])])
+-AC_CHECK_LIB(ilmControl, ilm_SetKeyboardFocusOn,
+-	[ILM_LIBS="$ILM_LIBS -lilmControl"],
+-	[AC_MSG_ERROR([Can't find correct ilmControl library.])])
++
++if test -z "$ILM_LIBS"; then
++	AC_HAVE_LIBRARY( ilmClient, 
++	ILM_LIBS="-lilmCommon -lilmClient",
++	AC_MSG_ERROR(Can't find ilmClient library.)
++	)
++
++	AC_HAVE_LIBRARY( ilmControl,
++	ILM_LIBS="$ILM_LIBS -lilmControl",
++	AC_MSG_ERROR(Can't find ilmControl library.)
++	)
++fi
+ AC_SUBST(ILM_LIBS)
+ 
+ WAYLAND_PREFIX=`$PKG_CONFIG --variable=prefix wayland-client`
+-- 
+1.8.3.1
+
