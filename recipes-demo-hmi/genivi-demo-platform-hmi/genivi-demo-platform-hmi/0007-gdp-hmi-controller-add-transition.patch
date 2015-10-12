@@ -1,0 +1,92 @@
+From b6dbb2f87bec422dde96ca6864700e38b73eb0bf Mon Sep 17 00:00:00 2001
+From: Nobuhiko Tanibata <ntanibata@jp.adit-jv.com>
+Date: Sat, 10 Oct 2015 11:06:31 +0900
+Subject: [PATCH 7/7] gdp-hmi-controller: add transition.
+
+---
+ include/gdp-hmi-apps.h     |  3 +++
+ src/gdp-hmi-controller.cpp | 37 +++++++++++++++++++++++++++++++++----
+ 2 files changed, 36 insertions(+), 4 deletions(-)
+
+diff --git a/include/gdp-hmi-apps.h b/include/gdp-hmi-apps.h
+index ab409f7..6ee139c 100644
+--- a/include/gdp-hmi-apps.h
++++ b/include/gdp-hmi-apps.h
+@@ -68,4 +68,7 @@
+ #define GDP_MAX_LAYER_ID                900
+ #define GDP_LAYER_ID_INCR               100
+ 
++#define GDP_BACKGROUND2_SURFACE_ID      1002
++#define GDP_BACKGROUND2_LAYER_ID        250
++
+ #endif // GDP_HMI_APP_H
+diff --git a/src/gdp-hmi-controller.cpp b/src/gdp-hmi-controller.cpp
+index e89ad7d..ad44d87 100644
+--- a/src/gdp-hmi-controller.cpp
++++ b/src/gdp-hmi-controller.cpp
+@@ -499,9 +499,33 @@ static void application_show(const int index)
+     t_ilm_surface surfaceIdArray[] = {gdp_surface.id_surface};
+     t_ilm_layer   layerIdArray[]   = {GDP_BACKGROUND_LAYER_ID, GDP_LAUNCHER_LAYER_ID, gdp_surface.id_layer};
+ 
++    int i = 0;
++    int current_layer_id = 0;
++    int layer_num = 0;
++    t_ilm_layer* pArray = NULL;
++
++    ilm_getLayerIDsOnScreen(screenID, &layer_num, &pArray);
++    for (i = 0; i < layer_num; i++) {
++        if ((pArray[i] != GDP_BACKGROUND_LAYER_ID) && (pArray[i] != GDP_LAUNCHER_LAYER_ID)) {
++            current_layer_id = pArray[i];
++            break;
++        }
++    }
++    free(pArray);
++    
++    for (i = 0; i < gdp_surfaces_num; i++) {
++        if (gdp_surfaces[i].id_layer == current_layer_id)
++            break;
++    }
++
++    callResult = ilm_surfaceSetDestinationRectangle(
++                gdp_surfaces[i].id_surface, screenWidth / 2, screenHeight / 2, 1, 1);
++    callResult = ilm_commitChanges();
++
++    //sleep(1);
++
+     switch(gdp_surface.id_surface) {
+         case QML_EXAMPLE_SURFACE_ID:         // QML Example
+-system("touch /home/root/application.xxx");
+             callResult = ilm_surfaceSetSourceRectangle(
+                 gdp_surface.id_surface, 0, 0, 600, 480);
+             break; 
+@@ -532,12 +556,11 @@ system("touch /home/root/application.xxx");
+     }
+ 
+     callResult = ilm_surfaceSetDestinationRectangle(
+-                gdp_surface.id_surface, 0, 0, screenWidth, screenHeight);
+-    callResult = ilm_surfaceSetVisibility(
+-                gdp_surface.id_surface, ILM_TRUE);
++                gdp_surface.id_surface, screenWidth / 2, screenHeight / 2, 1, 1);
+     callResult = ilm_surfaceSetOpacity(
+                 gdp_surface.id_surface, 1.0f);
+     callResult = ilm_commitChanges();
++    sleep(1);
+     sd_journal_print(LOG_DEBUG, "surface_control - input focus on\n");
+ 
+     sd_journal_print(LOG_DEBUG, "surface_control - render order - layer\n");
+@@ -549,6 +572,12 @@ system("touch /home/root/application.xxx");
+     callResult = ilm_layerSetVisibility(gdp_surface.id_layer, ILM_TRUE);
+     callResult = ilm_commitChanges();
+ 
++    callResult = ilm_surfaceSetDestinationRectangle(
++                gdp_surface.id_surface, 0, 0, screenWidth, screenHeight);
++    callResult = ilm_surfaceSetVisibility(
++                gdp_surface.id_surface, ILM_TRUE);
++    callResult = ilm_commitChanges();
++
+     sd_journal_print(LOG_DEBUG, "surface_control - render order - screen\n");
+     callResult = ilm_displaySetRenderOrder((t_ilm_display)screenID,
+                 layerIdArray, 3);
+-- 
+1.8.3.1
+
