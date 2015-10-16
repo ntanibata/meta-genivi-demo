@@ -5,13 +5,17 @@ SECTION = "libs"
 SRCREV = "1f6f3e6e966e0b453edc4a82338dc27966c37505"
 
 PE = "1"
-PV = "0.9.0+gitr${SRCPV}"
+#PV = "0.9.0+gitr${SRCPV}"
 
-SRC_URI = "git://git.baserock.org/delta/dbus-c++.git \
+#SRC_URI = "git://git.baserock.org/delta/dbus-c++.git \
+#           file://add_missing_unistd_header.patch \
+#          "
+SRC_URI = "file://libdbus-c++-0.9.0.tar.gz \
            file://add_missing_unistd_header.patch \
           "
 
-S = "${WORKDIR}/git"
+#S = "${WORKDIR}/git"
+S = "${WORKDIR}/libdbus-c++-0.9.0"
 
 inherit autotools pkgconfig
 
